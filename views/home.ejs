@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Homes</title>
+  <link rel="stylesheet" href="/css/output.css">
+
+
+</head>
+
+<body class="bg-gray-50">
+
+
+  
+    <%- include('partials/navbar') %>
+      <%- include('partials/hero') %>
+
+  
+  <div class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-3xl font-bold mb-8">Available Homes</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+      <!-- CARD -->
+      <% for (let home of registerHomes) { %>
+
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+      
+          <img
+            src="<%= home.imageurl %>"
+            class="h-48 w-full object-cover"
+            alt="home"
+          >
+      
+          <div class="p-4">
+            <h3 class="font-semibold text-lg">
+              <%= home.title %>
+            </h3>
+      
+            <p class="text-gray-500 text-sm">
+              <%= home.location %>
+            </p>
+      
+            <p class="mt-2 font-bold">
+              ₹<%= home.price %>
+            </p>
+      
+            <a
+            href="/homes/<%= home.id %>"
+              class="block mt-4 text-center bg-black text-white py-2 rounded-lg"
+            >
+              View / Book
+            </a>
+          </div>
+      
+        </div>
+      
+      <% } %>
+      
+
+    </div>
+  </div>
+
+</body>
+
+</html>

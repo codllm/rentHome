@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/output.css">
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+  <%- include('partials/navbar') %>
+
+  <div class="max-w-7xl mx-auto px-4 py-10">
+
+    <!-- GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+      <!-- LEFT CONTENT -->
+      <div class="lg:col-span-2">
+
+        <!-- IMAGE CARD -->
+        <div class="rounded-3xl overflow-hidden shadow mb-6">
+          <img
+            src="<%= home.imageurl %>"
+            class="w-full h-[360px] object-cover"
+            alt="home"
+          >
+        </div>
+
+        <!-- TEXT CONTENT -->
+        <h1 class="text-4xl font-bold mb-2">
+          <%= home.title %>
+        </h1>
+
+        <p class="text-gray-500 mb-6">
+          <%= home.location %>
+        </p>
+
+        <p class="text-gray-700 leading-relaxed text-lg">
+          <%= home.description %>
+        </p>
+        <a href="/favourite/<%= home.id %>">♡</a>
+
+      </div>
+
+      <!-- RIGHT BOOKING CARD -->
+      <div>
+        <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
+
+          <p class="text-3xl font-bold mb-6">
+            ₹<%= home.price %>
+            <span class="text-base font-normal text-gray-500">
+              / night
+            </span>
+          </p>
+
+          <button
+            class="w-full bg-black text-white py-4 rounded-xl text-lg hover:bg-gray-800 transition"
+          >
+            Book Now
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/output.css">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+  <% include ./partials/navbar.ejs %>
+
+  <div class="max-w-2xl mx-auto px-4 py-10">
+
+    <div class="bg-white rounded-xl shadow p-6">
+      <h1 class="text-3xl font-bold mb-6 text-center">
+        Edit Home
+      </h1>
+
+      <!-- Same form as Add Home, just pre-filled UI -->
+      <form class="space-y-4">
+
+        <!-- TITLE -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Title</label>
+          <input
+            type="text"
+            value="Cozy Apartment"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- LOCATION -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Location</label>
+          <input
+            type="text"
+            value="Delhi, India"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- PRICE -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Price per night</label>
+          <input
+            type="number"
+            value="2500"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- IMAGE URL -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Image URL</label>
+          <input
+            type="text"
+            value="https://example.com/house.jpg"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Description</label>
+          <textarea
+            rows="4"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          >A comfortable apartment in the city center.</textarea>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="flex gap-3 pt-2">
+          <button
+            type="submit"
+            class="flex-1 bg-black text-white py-3 rounded-lg hover:bg-gray-800"
+          >
+            Save Changes
+          </button>
+
+          <a
+            href="/host-dashboard"
+            class="flex-1 text-center border border-gray-300 py-3 rounded-lg"
+          >
+            Cancel
+          </a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
+3

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Favourites</title>
+  <link rel="stylesheet" href="/css/output.css">
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+  <%- include('partials/navbar') %>
+
+  <div class="max-w-7xl mx-auto px-4 py-10">
+
+    <h1 class="text-3xl font-bold mb-6">Your Favourites</h1>
+
+    <% if (favourites.length === 0) { %>
+      <p class="text-gray-500">No favourites yet.</p>
+    <% } %>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+      <% for (let fab of favourites) { %>
+
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+
+          <img src="<%= fab.imageurl %>" class="h-48 w-full object-cover">
+
+          <div class="p-4">
+            <h3 class="font-semibold text-lg"><%= fab.title %></h3>
+            <p class="text-gray-500 text-sm"><%= fab.location %></p>
+            <p class="mt-2 font-bold">₹<%= fab.price %> / night</p>
+
+            <div class="flex gap-3 mt-4">
+              <a href="/homes/<%= fab.id %>"
+                 class="flex-1 text-center bg-black text-white py-2 rounded-lg">
+                View
+              </a>
+
+              <form action="/remove-favourite/<%= fab.id %>" method="post">
+                <button class="flex-1 border border-red-500 text-red-500 py-2 rounded-lg">
+                  Remove
+                </button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+      <% } %>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

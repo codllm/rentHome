@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/output.css">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+  <%- include('partials/navbar') %>
+
+
+  <div class="max-w-2xl mx-auto px-4 py-10">
+
+    <div class="bg-white rounded-xl shadow p-6">
+      <h1 class="text-3xl font-bold mb-6 text-center">
+        Add New Home
+      </h1>
+
+      <form class="space-y-4" method="post" action="/registerHome">
+
+        <!-- TITLE -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Title</label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Cozy Apartment"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- LOCATION -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Location</label>
+          <input
+            type="text"
+            placeholder="Delhi, India"
+            name="location"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- PRICE -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Price per night</label>
+          <input
+            type="number"
+            placeholder="2500"
+            name="Price"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- IMAGE URL -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Image URL</label>
+          <input
+            type="text"
+            name="imageurl"
+            placeholder="https://example.com/image.jpg"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Description</label>
+          <textarea
+            rows="4"
+            placeholder="Describe your home..."
+            name="Description"
+            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+          ></textarea>
+        </div>
+
+        <!-- BUTTON -->
+        <button
+          type="submit"
+          class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800"
+        >
+          Add Home
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
