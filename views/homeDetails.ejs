@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Home Details</title>
@@ -12,56 +13,47 @@
   <%- include('partials/navbar') %>
 
   <div class="max-w-7xl mx-auto px-4 py-10">
-
-    <!-- GRID -->
+    
+    <!-- MAIN LAYOUT GRID -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
-      <!-- LEFT CONTENT -->
+      <!-- LEFT: IMAGE + DETAILS -->
       <div class="lg:col-span-2">
 
-        <!-- IMAGE CARD -->
+        <!-- IMAGE -->
         <div class="rounded-3xl overflow-hidden shadow mb-6">
-          <img
-            src="<%= home.imageurl %>"
-            class="w-full h-[360px] object-cover"
-            alt="home"
-          >
+          <img src="<%= home.imageurl %>" class="w-full h-96 object-cover" alt="home">
         </div>
 
-        <!-- TEXT CONTENT -->
-        <h1 class="text-4xl font-bold mb-2">
-          <%= home.title %>
-        </h1>
-
-        <p class="text-gray-500 mb-6">
-          <%= home.location %>
-        </p>
-
+        <!-- TEXT -->
         <p class="text-gray-700 leading-relaxed text-lg">
           <%= home.description %>
         </p>
-        <a href="/favourite/<%= home.id %>">♡</a>
 
       </div>
 
-      <!-- RIGHT BOOKING CARD -->
-      <div>
-        <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
+      <!-- RIGHT: BOOKING CARD -->
+      <div class="bg-white rounded-[19px] shadow-lg p-6 lg:sticky lg:top-24 h-fit">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">
+          <%= home.title %>
+        </h1>
 
-          <p class="text-3xl font-bold mb-6">
-            ₹<%= home.price %>
-            <span class="text-base font-normal text-gray-500">
-              / night
-            </span>
-          </p>
+        <p class="text-gray-500 mb-4">
+          <%= home.location %>
+        </p>
 
-          <button
-            class="w-full bg-black text-white py-4 rounded-xl text-lg hover:bg-gray-800 transition"
-          >
-            Book Now
-          </button>
+        <a href="/favourite/<%= home.id %>" class="text-xl mb-4 inline-block">♡</a>
 
-        </div>
+        <p class="text-3xl font-bold mb-6">
+          ₹<%= home.price %>
+          <span class="text-base font-normal text-gray-500">
+            / night
+          </span>
+        </p>
+
+        <button class="w-full bg-black text-white py-4 rounded-xl text-lg hover:bg-gray-800 transition">
+          Book Now
+        </button>
       </div>
 
     </div>
