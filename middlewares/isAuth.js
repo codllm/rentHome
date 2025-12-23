@@ -1,9 +1,6 @@
-function isAuth(req,res,next){
-
-  if(! req.session || !req.session.isLoggedIn){
+module.exports = (req, res, next) => {
+  if (!req.session.isAuth) {
     return res.redirect('/login');
   }
   next();
-}
-
-module.exports = isAuth;
+};

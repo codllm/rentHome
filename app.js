@@ -29,21 +29,23 @@ const USERS_FILE = path.join(__dirname, 'data/userInfo.json');
 
 
 
-function getUsers() {
-  if (!fs.existsSync(USERS_FILE)) return [];
-  const data = fs.readFileSync(USERS_FILE, 'utf-8');
-  return JSON.parse(data || '[]');
-}
 
-function saveUsers(users) {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
+
+// function saveUsers(users) {
+//   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+// }
 
 
 
 // HOME ROUTES
+
 const homeRoutes = require('./routes/homeRoutes');
 app.use('/', homeRoutes);
+
+// auth Routes
+
+const authRoutes = require('./controller/authRoutes');
+app.use('/',authRoutes);
 
 // HOST ROUTES
 const hostRoutes = require('./routes/hostRoutes');
@@ -51,61 +53,6 @@ app.use('/host', hostRoutes);
 
 
 
-// LOGIN PAGE
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-
-app.post('/login-airbnb', (req, res) => {
-  const { email, password } = req.body;
-  const users = getUsers();
-
-  const user = users.find(
-    u => u.email === email && u.password === password
-  );
-
-  if (!user) {
-    return res.send('Invalid email or password');
-  }
-
-  req.session.isLoggedIn = true;
-  res.redirect('/host/dashboard');
-});
-
-
-app.get('/signupAirbnb', (req, res) => {
-  res.render('register');
-});
-
-
-app.post('/newregister', (req, res) => {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password) {
-    return res.send('All fields are required');
-  }
-
-  const users = getUsers();
-
-  const alreadyExists = users.find(u => u.email === email);
-  if (alreadyExists) {
-    return res.send('User already exists');
-  }
-
-  users.push({ name, email, password });
-  saveUsers(users);
-
-  req.session.isLoggedIn = true;
-  res.redirect('/host/dashboard');
-});
-
-// LOGOUT
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/');
-  });
-});
 
 
 
