@@ -2,18 +2,20 @@ const express = require('express');
 const router = express.Router();
 
 const isAuth = require('../middlewares/isAuth');
-const registerHomes = require('../data/homes');
+const getHostHomes = require('../controller/hostHomesLogic');
 
-
-router.get('/', isAuth, (req, res) => {
-  res.render('hostDashboard',{registerHomes});
+router.get('/dashboard', isAuth, async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+    const homes = await getHostHomes(userId);
+    res.render('hostDashboard', { homes });
+  } catch (err) {
+    res.status(500).send('Something went wrong');
+  }
 });
 
 router.get('/add', isAuth, (req, res) => {
   res.render('addHome');
-});
-router.get('/dashboard', isAuth, (req, res) => {
-  res.render('hostDashboard', { registerHomes });
 });
 
 module.exports = router;

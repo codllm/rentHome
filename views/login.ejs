@@ -1,73 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/output.css">
+  <meta charset="UTF-8" />
+  <title>Log in · Airbnb</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+<body class="bg-white md:bg-gray-50 min-h-screen font-sans antialiased text-[#222222]">
 
-  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+  <%- include('partials/navbar') %>
 
-    <!-- HEADING -->
-    <h1 class="text-3xl font-bold text-center mb-2">
-      Welcome Back
-    </h1>
+    <div class="flex items-center justify-center min-h-[calc(100vh-80px)] px-6 py-12">
 
-    <p class="text-gray-500 text-center mb-8">
-      Login to continue
-    </p>
+      <div class="w-full max-w-[568px] bg-white md:border md:border-gray-200 md:rounded-xl md:shadow-xl p-6 md:p-8">
 
-    <!-- LOGIN FORM -->
-    <form class="space-y-5" action="/login-airbnb" method="post">
+        <header class="mb-8">
+          <h1 class="text-2xl font-semibold tracking-tight">
+            Log in
+          </h1>
+        </header>
 
-      <!-- EMAIL -->
-      <div>
-        <label class="block text-sm font-medium mb-1">
-          Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          placeholder="you@example.com"
-          class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black"
-        >
+        <form action="/login-airbnb" method="post" class="space-y-4">
+
+          <div class="space-y-[-1px]">
+            <div class="relative">
+              <input type="email" name="email" id="email" placeholder="Email" required
+                class="peer w-full border border-gray-400 rounded-t-lg px-4 pt-6 pb-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all placeholder-transparent" />
+              <label for="email"
+                class="absolute left-4 top-1 text-[12px] font-semibold text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:font-normal peer-focus:top-1 peer-focus:text-[12px] peer-focus:font-semibold">
+                Email
+              </label>
+            </div>
+            <div class="relative">
+              <select name="role" id="role" required
+                class="peer w-full border border-gray-400 px-3 pt-5 pb-1.5 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all bg-white text-sm">
+                <option value="" disabled selected>Select role</option>
+                <option value="guest">Guest</option>
+                <option value="host">Host</option>
+              </select>
+            </div>
+
+
+            <div class="relative">
+              <input type="password" name="password" id="password" placeholder="Password" required
+                class="peer w-full border border-gray-400 rounded-b-lg px-4 pt-6 pb-2 focus:border-black focus:ring-1 focus:ring-black outline-none transition-all placeholder-transparent" />
+              <label for="password"
+                class="absolute left-4 top-1 text-[12px] font-semibold text-gray-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:font-normal peer-focus:top-1 peer-focus:text-[12px] peer-focus:font-semibold">
+                Password
+              </label>
+            </div>
+          </div>
+
+          <p class="text-[12px] text-gray-600 leading-tight">
+            We’ll call or text you to confirm your number. Standard message and data rates apply.
+            <a href="#" class="font-semibold underline">Privacy Policy</a>
+          </p>
+
+          <button type="submit"
+            class="w-full bg-[#FF385C] hover:bg-[#E31C5F] text-white py-3.5 rounded-lg font-semibold transition active:scale-[0.98]">
+            Continue
+          </button>
+
+        </form>
+
+        <div class="flex items-center gap-4 my-5">
+          <div class="flex-1 h-[1px] bg-gray-300"></div>
+          <span class="text-gray-500 text-xs">or</span>
+          <div class="flex-1 h-[1px] bg-gray-300"></div>
+        </div>
+
+        <div class="space-y-3">
+          <button
+            class="flex items-center justify-between w-full border-[1.5px] border-gray-500 py-3 px-4 rounded-lg text-sm font-semibold hover:bg-gray-50 transition">
+            <svg viewBox="0 0 32 32" class="w-5 h-5">
+              <path
+                d="M16.3 30.7c8.1 0 14.7-6.6 14.7-14.7 0-1-.1-2-.3-3H16.3v5.7h8.4c-.4 2.1-1.6 3.9-3.4 5.1v4.2h5.5c3.2-3 5-7.4 5-12.4 0-.8-.1-1.7-.2-2.5H16.3v5.7h8.2c-.7 2-2.1 3.7-3.9 4.7l5.3 4.1z"
+                fill="#4285F4" />
+              <path
+                d="M16.3 30.7c4.1 0 7.5-1.3 10-3.6l-5.3-4.1c-1.3.9-3 1.4-4.7 1.4-3.6 0-6.7-2.4-7.8-5.7H3v4.3c2.5 5 7.7 8.3 13.3 8.3z"
+                fill="#34A853" />
+              <path d="M8.5 18.7c-.3-.9-.4-1.8-.4-2.7s.1-1.8.4-2.7V9H3c-1 2-1.5 4.3-1.5 6.7s.5 4.7 1.5 6.7l5.5-4.3z"
+                fill="#FBBC05" />
+              <path
+                d="M16.3 7.7c2.2 0 4.2.8 5.8 2.3l4.3-4.3C23.8 3.3 20.3 2 16.3 2 10.7 2 5.5 5.3 3 10.3l5.5 4.3c1.1-3.3 4.2-5.7 7.8-5.7z"
+                fill="#EA4335" />
+            </svg>
+            <span class="flex-1">Continue with Google</span>
+            <div class="w-5"></div>
+          </button>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <p class="text-sm text-gray-800">
+            Don’t have an account?
+            <a href="/signup-Airbnb" class="font-semibold underline decoration-solid hover:text-black">
+              Sign up
+            </a>
+          </p>
+        </div>
+
       </div>
-
-      <!-- PASSWORD -->
-      <div>
-        <label class="block text-sm font-medium mb-1">
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black"
-        >
-      </div>
-
-      <!-- LOGIN BUTTON -->
-      <button
-        type="submit"
-        class="w-full bg-black text-white py-3 rounded-lg text-lg hover:bg-gray-800 transition"
-      >
-        Login
-      </button>
-
-    </form>
-
-    <!-- FOOTER -->
-    <p class="text-center text-gray-500 text-sm mt-6">
-      Don’t have an account?
-      <a href="/signup-Airbnb" class="text-black font-medium hover:underline">
-        Register
-      </a>
-    </p>
-
-  </div>
+    </div>
 
 </body>
+
 </html>

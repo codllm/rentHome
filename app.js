@@ -1,59 +1,48 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 const session = require('express-session');
 
 const app = express();
 
-
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use('/css', express.static(path.join(__dirname, 'public/css')));
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/css', express.static(path.join(__dirname, 'public/css')));
 
-
-app.use(
-  session({
-    secret: 'mysecretkey',
-    resave: false,
-    saveUninitialized: false
-  })
-);
-
-
-
-const USERS_FILE = path.join(__dirname, 'data/userInfo.json');
-
-
-
-
-
-// function saveUsers(users) {
-//   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-// }
-
+app.use(session({
+  secret: 'mysecretkey',
+  resave: false,
+  saveUninitialized: false
+}));
 
 
 // HOME ROUTES
-
 const homeRoutes = require('./routes/homeRoutes');
 app.use('/', homeRoutes);
 
-// auth Routes
+// AUTH CONTROLLERS (DB BASED)
+const loginAuthLogic = require('./controller/loginAuthLogic');
+const signAuthLogic = require('./controller/signAuthLogic');
 
-const authRoutes = require('./controller/authRoutes');
-app.use('/',authRoutes);
+app.use('/', loginAuthLogic);
+app.use('/', signAuthLogic);
 
 // HOST ROUTES
 const hostRoutes = require('./routes/hostRoutes');
 app.use('/host', hostRoutes);
 
+// ADD HOME (POST)
+const addHomeLogic = require('./controller/addHomeLogic');
+app.use('/host', addHomeLogic);
 
 
-
+homeRoutes.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
+});
 
 
 app.listen(3000, () => {
