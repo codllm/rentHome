@@ -2,46 +2,50 @@ const express = require('express');
 const homeRoutes = express.Router();
 const db = require('../util/database');
 
+const favouritesHomesLogic = require('../favourite/favouritesHomesLogic');
+
+const favouriteHomesUser = require('../favourite/favouriteHomesUser');
 const isAuth = require('../middlewares/isAuth');
+const removeFavourite = require('../favourite/removeFavourite');
 
+// HOME PAGE
 homeRoutes.get('/', async (req, res) => {
-  try {
-    const [registerHomes] = await db.execute('SELECT * FROM homes');
-
-    console.log('fetched homes from the database successfully ✅');
-    res.render('home', { registerHomes });
-  } catch (err) {
-    console.log('failed to fetch homes from database ❌', err);
-    res.status(500).send('Something went wrong');
-  }
+  const [registerHomes] = await db.execute('SELECT * FROM homes');
+  res.render('home', { registerHomes });
 });
 
+// HOME DETAILS
 homeRoutes.get('/homes/:id', async (req, res) => {
-  const homeId = req.params.id;
+  const [[home]] = await db.execute(
+    'SELECT * FROM homes WHERE id = ?',
+    [req.params.id]
+  );
 
-  try {
-    const [[home]] = await db.execute(
-      'SELECT * FROM homes WHERE id = ?',
-      [homeId]
-    );
-
-    if (!home) {
-      return res.status(404).send('Home not found');
-    }
-
-    res.render('homeDetails', { home });
-  } catch (err) {
-    console.log('failed to fetch home ❌', err);
-    res.status(500).send('Something went wrong');
-  }
+  if (!home) return res.status(404).send('Home not found');
+  res.render('homeDetails', { home });
 });
 
+// LOGIN PAGE
 homeRoutes.get('/login', (req, res) => {
+  if (req.session.isAuth) {
+    if (req.session.user.role.toLowerCase() === 'host') {
+      return res.redirect('/host/dashboard');
+    }
+    return res.redirect('/');
+  }
   res.render('login');
 });
 
+// SIGNUP PAGE
 homeRoutes.get('/signup-airbnb', (req, res) => {
   res.render('register');
+});
+
+// LOGOUT
+homeRoutes.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
 });
 
 

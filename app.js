@@ -9,6 +9,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 
+
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
 
 app.use(session({
@@ -37,13 +38,11 @@ app.use('/host', hostRoutes);
 const addHomeLogic = require('./controller/addHomeLogic');
 app.use('/host', addHomeLogic);
 
+// favouriteRoutes
 
-homeRoutes.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/');
-  });
-});
+const favouriteRoutes = require('./routes/favouriteRoutes');
 
+app.use('/', favouriteRoutes);
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

@@ -27,8 +27,14 @@ signAuthLogic.post('/newregister', async (req, res) => {
     };
 
     console.log('New user registered ✅');
-
-    res.redirect('/host/dashboard');
+    if(role.toLowerCase() === 'host'){
+      console.log('Registered as host ✅');
+    return res.redirect('/host/dashboard');
+    }
+    if(role.toLowerCase() === 'guest'){
+      console.log('Registered as guest ✅');
+      return res.redirect('/');
+    }
 
   } catch (err) {
     console.log('Signup failed ❌', err);

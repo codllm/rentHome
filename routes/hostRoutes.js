@@ -1,10 +1,12 @@
 const express = require('express');
-const router = express.Router();
+const hostRoutes = express.Router();
 
-const isAuth = require('../middlewares/isAuth');
+const isHost = require('../middlewares/isHost');
 const getHostHomes = require('../controller/hostHomesLogic');
+const deleteHostHomeLogic = require('../controller/deletHostHomeLogic');
 
-router.get('/dashboard', isAuth, async (req, res) => {
+// HOST DASHBOARD
+hostRoutes.get('/dashboard', isHost, async (req, res) => {
   try {
     const userId = req.session.user.id;
     const homes = await getHostHomes(userId);
@@ -14,8 +16,18 @@ router.get('/dashboard', isAuth, async (req, res) => {
   }
 });
 
-router.get('/add', isAuth, (req, res) => {
+// ADD HOME PAGE
+hostRoutes.get('/add', isHost, (req, res) => {
   res.render('addHome');
 });
 
-module.exports = router;
+// DELETE HOME
+hostRoutes.post('/delete-home/:id', isHost, async (req, res) => {
+  const homeId = req.params.id;
+  const userId = req.session.user.id;
+
+  await deleteHostHomeLogic(homeId, userId);
+  res.redirect('/host/dashboard');
+});
+
+module.exports = hostRoutes;
