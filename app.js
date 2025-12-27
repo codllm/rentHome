@@ -44,6 +44,12 @@ const favouriteRoutes = require('./routes/favouriteRoutes');
 
 app.use('/', favouriteRoutes);
 
+// BOOKING ROUTES
+
+const bookingRoutes = require('./routes/bookingRoutes')
+
+app.use('/', bookingRoutes);
+
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
 });

@@ -116,9 +116,13 @@
             </div>
           </div>
 
-          <button class="w-full bg-gradient-to-r from-[#FF385C] via-[#E31C5F] to-[#BD1E59] text-white py-3.5 rounded-lg text-lg font-semibold hover:shadow-lg transition active:scale-[0.98]">
-            Reserve
-          </button>
+          <a href="/bookMyStay/<%= home.id %>"
+            class="block w-full bg-gradient-to-r from-[#FF385C] via-[#E31C5F] to-[#BD1E59]
+                   text-white py-3.5 rounded-lg text-lg font-semibold text-center
+                   hover:shadow-lg transition active:scale-[0.98]">
+           Reserve
+         </a>
+         
           
           <p class="text-center text-gray-500 text-sm mt-4">You won't be charged yet</p>
           
@@ -142,6 +146,6 @@
     </div>
 
   </main>
-
+  <%- include('partials/footer') %>
 </body>
 </html>
