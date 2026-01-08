@@ -5,114 +5,164 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirm and Pay · AirbnbLite</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white text-[#222222] font-sans antialiased">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .card-shadow { box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+    .payment-card { transition: all 0.2s cubic-bezier(0.2, 0, 0, 1); cursor: pointer; border: 2px solid #e5e7eb; }
+    .payment-card:hover { border-color: #222222; }
+    .payment-active { border-color: #222222; background-color: #f9f9f9; }
+    input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; }
+  </style>
+</head>
+
+<body class="bg-white text-[#222222] antialiased">
   <%- include('partials/navbar') %>
 
-  <main class="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-20 pt-8 pb-20">
-    
-    <div class="flex items-center gap-4 mb-8">
-      <a href="/homes/<%= home.id %>" class="p-2 hover:bg-gray-100 rounded-full transition">
-        <svg viewBox="0 0 32 32" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 28L8 16 20 4"></path></svg>
+  <main class="max-w-[1120px] mx-auto px-6 md:px-10 lg:px-12 pt-12 pb-24">
+    <div class="flex items-center gap-6 mb-10">
+      <a href="/homes/<%= home.id %>" class="p-3 hover:bg-gray-100 rounded-full transition-all active:scale-95">
+        <svg viewBox="0 0 32 32" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="4"><path d="M20 28L8 16 20 4"></path></svg>
       </a>
-      <h1 class="text-3xl font-semibold tracking-tight">Confirm and pay</h1>
+      <!-- homeid tag -->
+      <input type="hidden" id="homeId" value="<%= home.id %>">
+
+      <h1 class="text-3xl font-bold tracking-tight">Confirm and pay</h1>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+    <form  id="confirmPayForm" class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
       
-      <section>
-        <h2 class="text-2xl font-semibold mb-6">Your trip</h2>
-        
-        <form action="/bookings/confirm" method="POST" class="space-y-8">
-          <input type="hidden" name="homeId" value="<%= home.id %>">
-          
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="font-semibold">Dates</p>
-              <p class="text-gray-600 font-light">May 12 – 17, 2025</p>
+      <section class="space-y-12">
+        <input type="hidden" id="basePrice" value="<%= home.price %>">
+
+        <div class="space-y-8">
+          <h2 class="text-2xl font-semibold">Your trip</h2>
+
+          <div class="grid grid-cols-2 border border-gray-400 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-black">
+            <div class="p-4 border-r border-gray-400">
+              <label class="block text-[10px] font-black uppercase tracking-wider text-gray-500 mb-1">Check-in</label>
+              <input type="date" id="checkIn" required class="w-full text-sm font-medium outline-none bg-transparent">
             </div>
-            <button type="button" class="underline font-semibold text-sm">Edit</button>
-          </div>
-
-          <div class="flex justify-between items-start">
-            <div>
-              <p class="font-semibold">Guests</p>
-              <p class="text-gray-600 font-light">1 guest</p>
-            </div>
-            <button type="button" class="underline font-semibold text-sm">Edit</button>
-          </div>
-
-          <hr class="border-gray-200">
-
-          <h2 class="text-2xl font-semibold mb-4">Pay with</h2>
-          <div class="border border-gray-400 rounded-xl p-4 flex justify-between items-center cursor-pointer">
-            <span class="text-gray-500 font-light italic">Credit or debit card...</span>
-            <div class="flex gap-1">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="h-3">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" class="h-3">
+            <div class="p-4">
+              <label class="block text-[10px] font-black uppercase tracking-wider text-gray-500 mb-1">Checkout</label>
+              <input type="date" id="checkOut" required class="w-full text-sm font-medium outline-none bg-transparent">
             </div>
           </div>
 
-          <hr class="border-gray-200">
+          <div class="space-y-6">
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="font-bold">Rooms</p>
+                <p class="text-sm text-gray-500 font-light">Total units requested</p>
+              </div>
+              <div class="flex items-center gap-4">
+                <button type="button" id="minusRoom" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:border-black transition-all">−</button>
+                <span id="roomCount" class="font-bold text-lg w-4 text-center">1</span>
+                <button type="button" id="plusRoom" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:border-black transition-all">+</button>
+              </div>
+            </div>
 
-          <div>
-            <h3 class="text-xl font-semibold mb-2">Cancellation policy</h3>
-            <p class="text-gray-600 font-light leading-relaxed">
-              Free cancellation before May 5. After that, the reservation is non-refundable.
-            </p>
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="font-bold">Guests</p>
+                <p class="text-sm text-gray-500 font-light">Max capacity per room: 2</p>
+              </div>
+              <div class="flex items-center gap-4">
+                <button type="button" id="minusGuest" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:border-black transition-all">−</button>
+                <span id="guestCount" class="font-bold text-lg w-4 text-center">1</span>
+                <button type="button" id="plusGuest" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:border-black transition-all">+</button>
+              </div>
+            </div>
           </div>
+        </div>
 
-          <button type="submit" class="w-full md:w-auto bg-[#FF385C] text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-[#E31C5F] transition-all active:scale-95">
-            Confirm Booking
-          </button>
-        </form>
+        <hr class="border-gray-100">
+
+        <div class="space-y-6">
+          <h2 class="text-2xl font-semibold">Choose how to pay</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div id="upiBtn" class="payment-card payment-active p-6 rounded-2xl flex flex-col gap-4" onclick="setPayment('upi')">
+              <div class="flex justify-between items-center">
+                <span class="font-bold">UPI</span>
+                <div class="w-4 h-4 border-2 border-black rounded-full flex items-center justify-center">
+                  <div id="upiDot" class="w-2 h-2 bg-black rounded-full"></div>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" class="h-4">
+              </div>
+            </div>
+
+            <div id="cardBtn" class="payment-card p-6 rounded-2xl flex flex-col gap-4">
+              <div class="flex justify-between items-center">
+                <span class="font-bold">Cards / Others</span>
+                <div class="w-4 h-4 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                  <div id="cardDot" class="w-2 h-2 bg-black rounded-full hidden"></div>
+                </div>
+              </div>
+              <div class="flex gap-2 text-xl">💳 🏦</div>
+            </div>
+          </div>
+        </div>
+
+      <button
+  type="button"
+  id="payBtn"
+  class="w-full bg-[#FF385C] hover:bg-[#E31C5F] text-white py-4 rounded-xl font-bold text-lg"
+>
+  Confirm and pay
+</button>
+
       </section>
 
       <aside>
-        <div class="sticky top-28 border border-gray-200 rounded-2xl p-6 shadow-sm">
-          <div class="flex gap-4 mb-6">
-            <img src="<%= home.image_url %>" class="w-28 h-20 object-cover rounded-lg" alt="Home">
-            <div class="flex flex-col justify-between py-1">
-              <div>
-                <p class="text-xs text-gray-500"><%= home.location %></p>
-                <p class="text-sm font-medium line-clamp-2"><%= home.title %></p>
-              </div>
-              <p class="text-xs font-semibold">★ 4.92 (128 reviews)</p>
+        <div class="sticky top-28 bg-white border border-gray-200 rounded-3xl p-8 card-shadow space-y-6">
+          <div class="flex gap-5">
+            <img src="<%= home.image_url %>" class="w-28 h-20 object-cover rounded-xl shadow-sm">
+            <div class="flex flex-col justify-center">
+              <p class="text-xs font-bold text-gray-500 uppercase tracking-tighter"><%= home.location %></p>
+              <p class="text-sm font-semibold leading-tight mt-1"><%= home.title %></p>
+              <p class="text-xs mt-2">★ 4.98 <span class="text-gray-400 font-light">(124 reviews)</span></p>
             </div>
           </div>
 
-          <hr class="border-gray-200 mb-6">
-
-          <h3 class="text-xl font-semibold mb-4">Price details</h3>
-          <div class="space-y-3 font-light text-[#222222]">
-            <div class="flex justify-between">
-              <span class="underline">₹<%= home.price.toLocaleString('en-IN') %> x 5 nights</span>
-              <span>₹<%= (home.price * 5).toLocaleString('en-IN') %></span>
+          <hr class="border-gray-100">
+          
+          <h3 class="font-bold text-lg">Price details</h3>
+          <div class="space-y-4 text-[15px]">
+            <div class="flex justify-between font-light text-gray-600">
+              <span class="underline">₹<%= home.price.toLocaleString('en-IN') %> x <span id="displayNights">0</span> nights</span>
+              <span id="displayBaseTotal">₹0</span>
             </div>
-            <div class="flex justify-between">
-              <span class="underline">Airbnb service fee</span>
-              <span>₹<%= Math.round(home.price * 0.15).toLocaleString('en-IN') %></span>
+            <div class="flex justify-between font-light text-gray-600">
+              <span class="underline">Cleaning fee</span>
+              <span>₹250</span>
             </div>
-            <div class="flex justify-between">
-              <span class="underline">Taxes</span>
-              <span>₹<%= Math.round(home.price * 0.08).toLocaleString('en-IN') %></span>
+            <div id="roomMultiplierRow" class=" justify-between font-light text-gray-600 hidden">
+              <span class="underline">Room multiplier</span>
+              <span id="displayRoomMult" class="font-bold text-black">x1</span>
             </div>
           </div>
 
-          <hr class="border-gray-200 my-6">
+          <hr class="border-gray-100">
 
-          <div class="flex justify-between font-bold text-lg">
+          <div class="flex justify-between items-center text-lg font-bold">
             <span>Total (INR)</span>
-            <span>₹<%= Math.round((home.price * 5) + (home.price * 0.23)).toLocaleString('en-IN') %></span>
+            <span id="finalAmount">₹250</span>
+          </div>
+
+          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+            <p class="text-[10px] text-gray-500 leading-relaxed">
+              By selecting the button, I agree to the House Rules, Ground rules for guests, and AirbnbLite's Rebooking and Refund Policy.
+            </p>
           </div>
         </div>
       </aside>
 
-    </div>
+    </form>
   </main>
-
-  <%- include('partials/footer') %>
-
+<script src="/js/indexLogic.js"></script>
 </body>
 </html>

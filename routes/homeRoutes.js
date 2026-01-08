@@ -14,8 +14,8 @@ homeRoutes.get("/", async (req, res) => {
     "kolkata",
     "chennai",
     "Uttarakhand",
-    "bangalore", // Added
-    "hyderabad", // Added
+    "Ranchi", // Added
+    "Rajasthan", // Added
     "Kerala",
   ];
 

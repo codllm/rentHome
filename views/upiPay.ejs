@@ -1,0 +1,9 @@
+<h2>Pay using UPI</h2>
+
+<p>UPI ID: danny@upi</p>
+<p>Amount will be debited</p>
+
+<form action="/payment/upi/pay" method="POST">
+  <input type="hidden" name="bookingId" value="<%= bookingId %>">
+  <button>Pay Now</button>
+</form>

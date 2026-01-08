@@ -1,5 +1,6 @@
 const express = require('express');
 const signAuthLogic = express.Router();
+const argon2 = require('argon2');
 
 signAuthLogic.use(express.urlencoded({ extended: true }));
 
@@ -8,14 +9,14 @@ const db = require('../util/database');
 signAuthLogic.post('/newregister', async (req, res) => {
   const { name, email, password, role } = req.body;
 
-  if (!name || !email || !password || !role) {
-    return res.send('All fields required');
-  }
+  const hash = await argon2.hash(password);
+
+
 
   try {
     const [result] = await db.execute(
       'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
-      [name, email, password, role]
+      [name, email, hash, role]
     );
 
     // ✅ SAVE USER AFTER REGISTER

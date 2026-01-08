@@ -1,35 +1,40 @@
 const express = require("express");
 const loginAuthLogic = express.Router();
-
+const argon2 = require('argon2');
 loginAuthLogic.use(express.urlencoded({ extended: true }));
 
 const db = require("../util/database");
+const { verify } = require("argon2");
 
 loginAuthLogic.post("/login-airbnb", async (req, res) => {
   const { email, password, role } = req.body;
 
-  if (!email || !password || !role) {
-    return res.send("All fields required");
-  }
+  
 
   try {
     const [[user]] = await db.execute(
-      "SELECT * FROM users WHERE email = ? AND password = ? AND role = ?",
-      [email, password, role]
+      "SELECT * FROM users WHERE email = ?  AND role = ?",
+      [email, role]
     );
+    // authentication password haisng
+    const hashPassword = user.password;
+    await argon2.verify(hashPassword, password);
+
 
     if (!user) {
-      return res.send("Invalid credentials");
+      return res.render('login', {
+        error: 'Invalid email or password'
+      });
     }
 
-    
     req.session.isAuth = true;
     req.session.user = {
       id: user.id,
       email: user.email,
       role: user.role,
-      name: user.name,
+      name: user.name
     };
+    
 
     console.log("User logged in ✅", req.session.user);
 

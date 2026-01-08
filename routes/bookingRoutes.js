@@ -3,8 +3,8 @@ const bookingRoutes = express.Router();
 const isAuth = require('../middlewares/isAuth');
 
 const getHousebyID = require('../booking/getHousebyID');
-
-bookingRoutes.get('/bookMyStay/:homeId', isAuth, async (req, res) => {
+//isAuth
+bookingRoutes.get('/bookMyStay/:homeId',isAuth, async (req, res) => {
   const homeId = req.params.homeId;
 
   try {
@@ -19,5 +19,9 @@ bookingRoutes.get('/bookMyStay/:homeId', isAuth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+bookingRoutes.get("/bookings/success", (req, res) => {
+  res.render("bookingSuccess");
+});
+
 
 module.exports = bookingRoutes;

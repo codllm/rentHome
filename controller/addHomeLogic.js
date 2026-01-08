@@ -7,7 +7,7 @@ const db = require('../util/database');
 const isAuth = require('../middlewares/isAuth');
 
 addHomeLogic.post('/addhomeFormpage', isAuth, async (req, res) => {
-  const { title, description, location, price, imageUrl } = req.body;
+  const { title, description, location, price, imageUrl , ac ,wifi,parking,bedroom } = req.body;
 
   const priceNum = Number(price);
   if (!priceNum || priceNum <= 0) {
@@ -20,9 +20,9 @@ addHomeLogic.post('/addhomeFormpage', isAuth, async (req, res) => {
 
     await db.execute(
       `INSERT INTO homes 
-       (title, description, location, price, image_url, user_id)
+       (title, description, location, price, image_url,, ac ,wifi,parking,bedroom, user_id)
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [title, description, location, priceNum, imageUrl, userId]
+      [title, description, location, priceNum, imageUrl,, ac ,wifi,parking,bedroom, userId]
     );
 
     console.log('Home added successfully ✅ for user', userId);

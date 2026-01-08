@@ -51,7 +51,7 @@
           </div>
           <div class="text-center">
             <span class="block text-xl font-bold">4.9</span>
-            <div class="flex text-[8px]">★★★★★</div>
+            <div class="flex text-[8px] text-yellow-500">★★★★★</div>
           </div>
         </div>
       </div>
@@ -63,9 +63,8 @@
         <div class="pb-8 border-b border-gray-200">
           <h2 class="text-2xl font-semibold mb-1">Entire home in <%= home.location %></h2>
           <ol class="flex text-gray-500 text-sm">
-            <li>4 guests</li>
-            <li class="before:content-['•'] before:mx-2">2 bedrooms</li>
-            <li class="before:content-['•'] before:mx-2">2 beds</li>
+            <li>Up to 4 guests</li>
+            <li class="before:content-['•'] before:mx-2"><%= home.bedroom %> bedrooms</li>
             <li class="before:content-['•'] before:mx-2">1 bathroom</li>
           </ol>
         </div>
@@ -78,11 +77,36 @@
 
         <div class="py-8 border-t border-gray-200">
           <h3 class="text-xl font-semibold mb-6">What this place offers</h3>
-          <div class="grid grid-cols-2 gap-4 text-gray-600">
-            <div class="flex items-center gap-4">🌐 Fast wifi</div>
-            <div class="flex items-center gap-4">🏊 Pool</div>
-            <div class="flex items-center gap-4">🚗 Free parking</div>
-            <div class="flex items-center gap-4">❄️ Air conditioning</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 text-lg">
+            
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">🛜</span>
+              <span class="font-bold <%= home.wifi === 'yes' ? 'text-green-600' : 'text-red-600' %>">
+                Wifi: <%= home.wifi.toUpperCase() %>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">🚘</span>
+              <span class="font-bold <%= home.parking === 'yes' ? 'text-green-600' : 'text-red-600' %>">
+                Parking: <%= home.parking.toUpperCase() %>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">❄️</span>
+              <span class="font-bold <%= home.ac === 'yes' ? 'text-green-600' : 'text-red-600' %>">
+                AC: <%= home.ac.toUpperCase() %>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">🛏️</span>
+              <span class="font-medium text-gray-700">
+                <%= home.bedroom %> Bedrooms
+              </span>
+            </div>
+
           </div>
         </div>
       </div>
@@ -91,7 +115,7 @@
         <div class="bg-white border border-gray-200 rounded-2xl shadow-xl p-6 sticky top-28 h-fit">
           <div class="flex justify-between items-baseline mb-6">
             <div>
-              <span class="text-2xl font-bold">₹<%= home.price %></span>
+              <span class="text-2xl font-bold">₹<%= home.price.toLocaleString('en-IN') %></span>
               <span class="text-gray-500 font-normal">night</span>
             </div>
             <div class="text-xs font-semibold">
@@ -123,13 +147,12 @@
            Reserve
          </a>
          
-          
           <p class="text-center text-gray-500 text-sm mt-4">You won't be charged yet</p>
           
           <div class="mt-6 space-y-3">
             <div class="flex justify-between text-gray-600 underline">
-              <span>₹<%= home.price %> x 5 nights</span>
-              <span>₹<%= home.price * 5 %></span>
+              <span>₹<%= home.price.toLocaleString('en-IN') %> x 5 nights</span>
+              <span>₹<%= (home.price * 5).toLocaleString('en-IN') %></span>
             </div>
             <div class="flex justify-between text-gray-600 underline">
               <span>Cleaning fee</span>
@@ -137,7 +160,7 @@
             </div>
             <div class="border-t border-gray-200 pt-3 flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span>₹<%= (home.price * 5) + 450 %></span>
+              <span>₹<%= (home.price * 5 + 450).toLocaleString('en-IN') %></span>
             </div>
           </div>
         </div>
