@@ -6,6 +6,9 @@ const isAuth = require("../middlewares/isAuth");
 
 const stateWiseHome = require("../model/stateWiseHome");
 
+const roomAvailability = require('../controller/roomAvailability');
+
+
 // HOME PAGE
 homeRoutes.get("/", async (req, res) => {
   const states = [
@@ -14,7 +17,6 @@ homeRoutes.get("/", async (req, res) => {
     "kolkata",
     "chennai",
     "Uttarakhand",
-    "Ranchi", // Added
     "Rajasthan", // Added
     "Kerala",
   ];
@@ -29,8 +31,10 @@ homeRoutes.get("/homes/:id", async (req, res) => {
     req.params.id,
   ]);
 
+  const bookingStatus = await roomAvailability(req.params.id);
+
   if (!home) return res.status(404).send("Home not found");
-  res.render("homeDetails", { home });
+  res.render("homeDetails", { home,bookingStatus});
 });
 
 // LOGIN PAGE

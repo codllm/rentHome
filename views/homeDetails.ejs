@@ -3,7 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <title><%= home.title %> · AirbnbLite</title>
+  <title>
+    <%= home.title %> · AirbnbLite
+  </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -12,163 +14,187 @@
 
   <%- include('partials/navbar') %>
 
-  <main class="max-w-[1120px] mx-auto px-6 pb-20">
-    
-    <section class="py-6">
-      <div class="flex justify-between items-end">
-        <div>
-          <h1 class="text-[26px] font-semibold leading-tight mb-2">
-            <%= home.title %>
-          </h1>
-          <div class="flex items-center gap-2 text-sm font-semibold underline decoration-solid cursor-pointer">
-            <span><%= home.location %></span>
-          </div>
-        </div>
-        
-        <div class="flex items-center gap-4 text-sm font-semibold">
-          <button class="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-lg transition">
-            <svg viewBox="0 0 32 32" class="w-4 h-4 fill-current"><path d="M27 18v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-9m11-15v21m-5-16 5-5 5 5"></path></svg>
-            <span class="underline">Share</span>
-          </button>
-          <a href="/favourite/<%= home.id %>" class="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-lg transition">
-            <svg viewBox="0 0 32 32" class="w-4 h-4 fill-current stroke-current stroke-1"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0 6.98 6.98 0 0 0 0 9.9z"></path></svg>
-            <span class="underline">Save</span>
-          </a>
-        </div>
-      </div>
-    </section>
+    <main class="max-w-[1120px] mx-auto px-6 pb-20">
 
-    <section class="mb-8">
-      <div class="relative group">
-        <div class="rounded-xl overflow-hidden h-[450px] md:h-[550px] bg-gray-200">
-          <img src="<%= home.image_url %>" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="<%= home.title %>">
-        </div>
-        
-        <div class="absolute top-6 left-6 bg-white py-3 px-5 rounded-md shadow-lg flex items-center gap-3">
-          <div class="flex flex-col border-r border-gray-300 pr-3">
-            <span class="text-xs font-bold uppercase tracking-tighter">Guest</span>
-            <span class="text-xs font-bold uppercase tracking-tighter">Favourite</span>
-          </div>
-          <div class="text-center">
-            <span class="block text-xl font-bold">4.9</span>
-            <div class="flex text-[8px] text-yellow-500">★★★★★</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
-
-      <div class="lg:col-span-2">
-        <div class="pb-8 border-b border-gray-200">
-          <h2 class="text-2xl font-semibold mb-1">Entire home in <%= home.location %></h2>
-          <ol class="flex text-gray-500 text-sm">
-            <li>Up to 4 guests</li>
-            <li class="before:content-['•'] before:mx-2"><%= home.bedroom %> bedrooms</li>
-            <li class="before:content-['•'] before:mx-2">1 bathroom</li>
-          </ol>
-        </div>
-
-        <div class="py-8">
-          <p class="text-[#222222] leading-[26px] whitespace-pre-line text-lg">
-            <%= home.description %>
-          </p>
-        </div>
-
-        <div class="py-8 border-t border-gray-200">
-          <h3 class="text-xl font-semibold mb-6">What this place offers</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 text-lg">
-            
-            <div class="flex items-center gap-4">
-              <span class="text-2xl">🛜</span>
-              <span class="font-bold <%= home.wifi === 'yes' ? 'text-green-600' : 'text-red-600' %>">
-                Wifi: <%= home.wifi.toUpperCase() %>
+      <section class="py-6">
+        <div class="flex justify-between items-end">
+          <div>
+            <h1 class="text-[26px] font-semibold leading-tight mb-2">
+              <%= home.title %>
+            </h1>
+            <div class="flex items-center gap-2 text-sm font-semibold underline decoration-solid cursor-pointer">
+              <span>
+                <%= home.location %>
               </span>
             </div>
+          </div>
 
-            <div class="flex items-center gap-4">
-              <span class="text-2xl">🚘</span>
-              <span class="font-bold <%= home.parking === 'yes' ? 'text-green-600' : 'text-red-600' %>">
-                Parking: <%= home.parking.toUpperCase() %>
-              </span>
-            </div>
-
-            <div class="flex items-center gap-4">
-              <span class="text-2xl">❄️</span>
-              <span class="font-bold <%= home.ac === 'yes' ? 'text-green-600' : 'text-red-600' %>">
-                AC: <%= home.ac.toUpperCase() %>
-              </span>
-            </div>
-
-            <div class="flex items-center gap-4">
-              <span class="text-2xl">🛏️</span>
-              <span class="font-medium text-gray-700">
-                <%= home.bedroom %> Bedrooms
-              </span>
-            </div>
-
+          <div class="flex items-center gap-4 text-sm font-semibold">
+            <button class="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-lg transition">
+              <svg viewBox="0 0 32 32" class="w-4 h-4 fill-current">
+                <path d="M27 18v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-9m11-15v21m-5-16 5-5 5 5"></path>
+              </svg>
+              <span class="underline">Share</span>
+            </button>
+            <a href="/favourite/<%= home.id %>"
+              class="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-lg transition">
+              <svg viewBox="0 0 32 32" class="w-4 h-4 fill-current stroke-current stroke-1">
+                <path
+                  d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0 6.98 6.98 0 0 0 0 9.9z">
+                </path>
+              </svg>
+              <span class="underline">Save</span>
+            </a>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="relative">
-        <div class="bg-white border border-gray-200 rounded-2xl shadow-xl p-6 sticky top-28 h-fit">
-          <div class="flex justify-between items-baseline mb-6">
-            <div>
-              <span class="text-2xl font-bold">₹<%= home.price.toLocaleString('en-IN') %></span>
-              <span class="text-gray-500 font-normal">night</span>
-            </div>
-            <div class="text-xs font-semibold">
-              <u>15 reviews</u>
-            </div>
+      <section class="mb-8">
+        <div class="relative group">
+          <div class="rounded-xl overflow-hidden h-[450px] md:h-[550px] bg-gray-200">
+            <img src="<%= home.image_url %>"
+              class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="<%= home.title %>">
           </div>
 
-          <div class="border border-gray-400 rounded-xl mb-4 overflow-hidden">
-            <div class="grid grid-cols-2 border-b border-gray-400">
-              <div class="p-3 border-r border-gray-400">
-                <label class="block text-[10px] font-bold uppercase">Check-in</label>
-                <div class="text-sm">Add date</div>
+          <div class="absolute top-6 left-6 bg-white py-3 px-5 rounded-md shadow-lg flex items-center gap-3">
+            <div class="flex flex-col border-r border-gray-300 pr-3">
+              <span class="text-xs font-bold uppercase tracking-tighter">Guest</span>
+              <span class="text-xs font-bold uppercase tracking-tighter">Favourite</span>
+            </div>
+            <div class="text-center">
+              <span class="block text-xl font-bold">4.9</span>
+              <div class="flex text-[8px] text-yellow-500">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
+
+        <div class="lg:col-span-2">
+          <div class="pb-8 border-b border-gray-200">
+            <h2 class="text-2xl font-semibold mb-1">Entire home in <%= home.location %>
+            </h2>
+            <ol class="flex text-gray-500 text-sm">
+              <li>Up to 4 guests</li>
+              <li class="before:content-['•'] before:mx-2">
+                <%= home.bedroom %> bedrooms
+              </li>
+              <li class="before:content-['•'] before:mx-2">1 bathroom</li>
+            </ol>
+          </div>
+
+          <div class="py-8">
+            <p class="text-[#222222] leading-[26px] whitespace-pre-line text-lg">
+              <%= home.description %>
+            </p>
+          </div>
+
+          <div class="py-8 border-t border-gray-200">
+            <h3 class="text-xl font-semibold mb-6">What this place offers</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 text-lg">
+
+              <div class="flex items-center gap-4">
+                <span class="text-2xl">🛜</span>
+                <span class="font-bold <%= home.wifi === 'yes' ? 'text-green-600' : 'text-red-600' %>">
+                  Wifi: <%= home.wifi.toUpperCase() %>
+                </span>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <span class="text-2xl">🚘</span>
+                <span class="font-bold <%= home.parking === 'yes' ? 'text-green-600' : 'text-red-600' %>">
+                  Parking: <%= home.parking.toUpperCase() %>
+                </span>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <span class="text-2xl">❄️</span>
+                <span class="font-bold <%= home.ac === 'yes' ? 'text-green-600' : 'text-red-600' %>">
+                  AC: <%= home.ac.toUpperCase() %>
+                </span>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <span class="text-2xl">🛏️</span>
+                <span class="font-medium text-gray-700">
+                  <%= home.bedroom %> Bedrooms
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="bg-white border border-gray-200 rounded-2xl shadow-xl p-6 sticky top-28 h-fit">
+            <div class="flex justify-between items-baseline mb-6">
+              <div>
+                <span class="text-2xl font-bold">₹<%= home.price.toLocaleString('en-IN') %></span>
+                <span class="text-gray-500 font-normal">night</span>
+              </div>
+              <div class="text-xs font-semibold">
+                <u>15 reviews</u>
+              </div>
+            </div>
+
+            <div class="border border-gray-400 rounded-xl mb-4 overflow-hidden">
+              <div class="grid grid-cols-2 border-b border-gray-400">
+                <div class="p-3 border-r border-gray-400">
+                  <label class="block text-[10px] font-bold uppercase">Check-in</label>
+                  <div class="text-sm">Add date</div>
+                </div>
+                <div class="p-3">
+                  <label class="block text-[10px] font-bold uppercase">Checkout</label>
+                  <div class="text-sm">Add date</div>
+                </div>
               </div>
               <div class="p-3">
-                <label class="block text-[10px] font-bold uppercase">Checkout</label>
-                <div class="text-sm">Add date</div>
+                <label class="block text-[10px] font-bold uppercase">Guests</label>
+                <div class="text-sm">1 guest</div>
               </div>
             </div>
-            <div class="p-3">
-              <label class="block text-[10px] font-bold uppercase">Guests</label>
-              <div class="text-sm">1 guest</div>
-            </div>
-          </div>
+            <!-- Room available -->
+            <% if (bookingStatus !=='CONFIRMED' ) { %>
+              <a href="/bookMyStay/<%= home.id %>" class="block w-full bg-gradient-to-r from-[#FF385C] via-[#E31C5F] to-[#BD1E59]
+            text-white py-3.5 rounded-lg text-lg font-semibold text-center
+            hover:shadow-lg transition active:scale-[0.98]">
+                Reserve
+              </a>
+              <% } %>
 
-          <a href="/bookMyStay/<%= home.id %>"
-            class="block w-full bg-gradient-to-r from-[#FF385C] via-[#E31C5F] to-[#BD1E59]
-                   text-white py-3.5 rounded-lg text-lg font-semibold text-center
-                   hover:shadow-lg transition active:scale-[0.98]">
-           Reserve
-         </a>
-         
-          <p class="text-center text-gray-500 text-sm mt-4">You won't be charged yet</p>
-          
-          <div class="mt-6 space-y-3">
-            <div class="flex justify-between text-gray-600 underline">
-              <span>₹<%= home.price.toLocaleString('en-IN') %> x 5 nights</span>
-              <span>₹<%= (home.price * 5).toLocaleString('en-IN') %></span>
-            </div>
-            <div class="flex justify-between text-gray-600 underline">
-              <span>Cleaning fee</span>
-              <span>₹450</span>
-            </div>
-            <div class="border-t border-gray-200 pt-3 flex justify-between font-bold text-lg">
-              <span>Total</span>
-              <span>₹<%= (home.price * 5 + 450).toLocaleString('en-IN') %></span>
-            </div>
+                <!-- Room booked -->
+                <% if (bookingStatus==='CONFIRMED' ) { %>
+                  <button class="block w-full bg-gray-400 cursor-not-allowed
+            text-white py-3.5 rounded-lg text-lg font-semibold text-center">
+                    Booked
+                  </button>
+                  <% } %>
+
+
+                    <p class="text-center text-gray-500 text-sm mt-4">You won't be charged yet</p>
+
+                    <div class="mt-6 space-y-3">
+                      <div class="flex justify-between text-gray-600 underline">
+                        <span>₹<%= home.price.toLocaleString('en-IN') %> x 5 nights</span>
+                        <span>₹<%= (home.price * 5).toLocaleString('en-IN') %></span>
+                      </div>
+                      <div class="flex justify-between text-gray-600 underline">
+                        <span>Cleaning fee</span>
+                        <span>₹450</span>
+                      </div>
+                      <div class="border-t border-gray-200 pt-3 flex justify-between font-bold text-lg">
+                        <span>Total</span>
+                        <span>₹<%= (home.price * 5 + 450).toLocaleString('en-IN') %></span>
+                      </div>
+                    </div>
           </div>
         </div>
+
       </div>
 
-    </div>
-
-  </main>
-  <%- include('partials/footer') %>
+    </main>
+    <%- include('partials/footer') %>
 </body>
+
 </html>

@@ -6,13 +6,15 @@ async function rentedHomesLogic(userId) {
       `
       SELECT 
         booking.user_id,
+        booking.id As bookingId,
         booking.status,
         booking.checkin,
         booking.checkout,
         homes.location,
         homes.image_url,
         booking.amount,
-        homes.title
+        homes.title,
+        homes.id AS homeId
       FROM booking
       JOIN homes ON booking.home_id = homes.id
       WHERE booking.user_id = ? 

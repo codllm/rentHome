@@ -46,6 +46,8 @@ app.get('/booking', (req, res) => {
   res.render('booking');
 });
 
+app.use('/receipt',require('./routes/bookingManageRoutes'));
+
 
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");

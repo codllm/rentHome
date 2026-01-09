@@ -77,9 +77,24 @@
                   <div class="relative overflow-hidden rounded-xl aspect-card mb-3 bg-gray-100">
                     <img src="<%= home.image_url %>" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" loading="lazy">
                     
-                    <div class="absolute top-3 left-3 bg-white/95 px-2.5 py-1 rounded-md text-[11px] font-bold shadow-sm border border-gray-100 uppercase tracking-tight text-gray-800">
-                      Guest Favourite
+                    <div class="absolute top-3 left-3 flex flex-col gap-2 z-10">
+  
+                      <% if(home.booking_status === 'CONFIRMED'){ %>
+                        <div class="bg-black/80 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-lg border border-white/20 flex items-center gap-1.5">
+                          <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                          Booked
+                        </div>
+                      <% } %>
+                    
+                      <div class="bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-lg text-[10px] font-black shadow-md border border-gray-100 uppercase tracking-widest text-gray-900">
+                        Guest Favourite
+                      </div>
                     </div>
+                    
+                    <% if(home.booking_status === 'CONFIRMED'){ %>
+                      <div class="absolute inset-0 bg-white/20 backdrop-grayscale-[0.5] pointer-events-none"></div>
+                    <% } %>
+                   
                   </div>
 
                   <div class="flex flex-col space-y-0.5">
