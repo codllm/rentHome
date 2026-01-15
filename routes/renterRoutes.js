@@ -18,4 +18,5 @@ rentedRoutes.get('/homes', isAuth, async (req, res) => {
   }
 })
 
+
 module.exports = rentedRoutes;

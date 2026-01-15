@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
@@ -26,6 +25,7 @@ app.use(
     saveUninitialized: false
   })
 );
+//here im adding multer 
 
 
 app.use("/", require("./routes/homeRoutes"));
@@ -47,6 +47,9 @@ app.get('/booking', (req, res) => {
 });
 
 app.use('/receipt',require('./routes/bookingManageRoutes'));
+
+app.use('/', require('./routes/chatSupportRoutes'));
+app.use('/',require('./routes/anyWhereRoutes'))
 
 
 app.listen(3000, () => {

@@ -6,178 +6,176 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: 'Inter', sans-serif; color: #222222; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    body { font-family: 'Inter', sans-serif; color: #222; scroll-behavior: smooth; }
+    .gallery-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: repeat(2, 180px); gap: 8px; }
+    @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; grid-template-rows: 300px; } }
+    .booking-sidebar { box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px; border: 1px solid rgb(221, 221, 221); }
   </style>
 </head>
 
 <body class="bg-white antialiased">
   <%- include('partials/navbar') %>
 
-  <main class="max-w-[1120px] mx-auto px-6 lg:px-10">
-    
-    <section class="pt-8 pb-6">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 class="text-3xl font-bold tracking-tight mb-2"><%= home.title %></h1>
-          <div class="flex items-center gap-4 text-sm">
-            <div class="flex items-center gap-1 font-bold">
-              <span>★</span> <span>4.92</span>
-            </div>
-            <span class="text-gray-300">•</span>
-            <button class="underline font-semibold hover:text-black transition uppercase tracking-tighter text-xs">15 reviews</button>
-            <span class="text-gray-300">•</span>
-            <span class="underline font-semibold text-gray-600 cursor-pointer"><%= home.location %></span>
-          </div>
+  <% 
+    let images = [];
+    try {
+      images = JSON.parse(home.image_url);
+      if (!Array.isArray(images)) images = [images];
+    } catch (e) {
+      images = [home.image_url];
+    }
+  %>
+
+  <main class="max-w-[1120px] mx-auto px-6 lg:px-10 pb-20">
+
+    <section class="pt-8 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+      <div>
+        <h1 class="text-[26px] font-semibold leading-8 mb-2"><%= home.title %></h1>
+        <div class="flex items-center gap-2 text-sm font-semibold underline decoration-1 underline-offset-2">
+          <span><%= home.location %></span>
         </div>
-        
-        <div class="flex items-center gap-2">
-          <button class="flex items-center gap-2 hover:bg-gray-100 px-4 py-2 rounded-xl transition text-sm font-semibold underline">
-            <svg viewBox="0 0 32 32" class="w-4 h-4"><path d="M27 18v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-9m11-15v21m-5-16 5-5 5 5" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>
-            Share
-          </button>
-          <a href="/favourite/<%= home.id %>" class="flex items-center gap-2 hover:bg-gray-100 px-4 py-2 rounded-xl transition text-sm font-semibold underline">
-            <svg viewBox="0 0 32 32" class="w-4 h-4 text-[#FF385C]"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0 6.98 6.98 0 0 0 0 9.9z" fill="currentColor"/></svg>
-            Save
-          </a>
-        </div>
+      </div>
+      <div class="flex gap-4 text-sm font-semibold">
+        <button class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition underline">
+          <svg viewBox="0 0 32 32" class="w-4 h-4"><path d="M27 18v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-9m11-15v21m-5-16 5-5 5 5" fill="none" stroke="currentColor" stroke-width="3"/></svg> Share
+        </button>
+        <button class="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition underline">
+          <svg viewBox="0 0 32 32" class="w-4 h-4"><path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0 6.98 6.98 0 0 0 0 9.9z" fill="none" stroke="currentColor" stroke-width="3"/></svg> Save
+        </button>
       </div>
     </section>
 
-    <section class="mb-10">
-      <div class="relative aspect-video md:aspect-[21/9] rounded-3xl overflow-hidden bg-gray-100 shadow-sm group">
-        <img src="<%= home.image_url %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="<%= home.title %>">
-        
-        <div class="absolute top-6 left-6 bg-white/95 backdrop-blur-md py-3 px-5 rounded-2xl shadow-xl flex items-center gap-4 border border-white/50">
-          <div class="flex flex-col border-r border-gray-200 pr-4">
-             <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Guest</span>
-             <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">Favorite</span>
-          </div>
-          <div class="flex flex-col items-center">
-             <span class="text-xl font-black">4.9</span>
-             <div class="flex text-[8px] text-yellow-500 gap-0.5">★★★★★</div>
-          </div>
+    <section class="relative group mb-12">
+      <div class="gallery-grid rounded-2xl overflow-hidden">
+        <div class="md:col-span-1 md:row-span-2 overflow-hidden bg-gray-200">
+          <img src="<%= images[0] %>" class="w-full h-full object-cover hover:opacity-90 transition cursor-pointer" onclick="openGallery()"/>
         </div>
+        <% for(let i=1; i<5; i++) { %>
+          <div class="hidden md:block overflow-hidden bg-gray-200 relative">
+            <% if(images[i]) { %>
+              <img src="<%= images[i] %>" class="w-full h-full object-cover hover:opacity-90 transition cursor-pointer" onclick="openGallery()"/>
+              <% if(i === 4) { %>
+                <button onclick="openGallery()" class="absolute bottom-4 right-4 bg-white border border-black px-4 py-1.5 rounded-lg text-sm font-semibold shadow-sm hover:bg-gray-50">
+                  Show all photos
+                </button>
+              <% } %>
+            <% } else { %>
+              <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300">No Image</div>
+            <% } %>
+          </div>
+        <% } %>
       </div>
     </section>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-      
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+
       <div class="lg:col-span-7">
-        
-        <div class="pb-8 border-b border-gray-100">
-          <div class="flex justify-between items-start">
-            <div>
-              <h2 class="text-2xl font-bold mb-2">Entire home hosted by AirbnbLite</h2>
-              <p class="text-gray-500 font-light">4 guests · <%= home.bedroom %> bedrooms · 2 beds · 1 bath</p>
-            </div>
-            <div class="w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center text-white font-bold text-xl">A</div>
-          </div>
+        <div class="pb-8 border-b border-gray-200">
+          <h2 class="text-2xl font-semibold mb-1 tracking-tight">Hosted by AirbnbLite</h2>
+          <p class="text-gray-600">4 guests · <%= home.bedroom %> bedrooms · 2 beds · 1 bath</p>
         </div>
 
-        <div class="py-8 space-y-6 border-b border-gray-100">
-          <div class="flex gap-4">
-            <span class="text-2xl">✨</span>
+        <div class="py-10 border-b border-gray-200">
+          <div class="flex gap-4 mb-6">
+            <div class="text-2xl mt-1">✨</div>
             <div>
-              <p class="font-bold">Guest favorite</p>
-              <p class="text-sm text-gray-500">One of the most loved homes on AirbnbLite based on ratings and reliability.</p>
+              <p class="font-semibold text-lg">Experienced Host</p>
+              <p class="text-gray-500 font-light">They’ve hosted over 500 stays with high ratings.</p>
             </div>
           </div>
           <div class="flex gap-4">
-            <span class="text-2xl">📍</span>
+            <div class="text-2xl mt-1">📅</div>
             <div>
-              <p class="font-bold">Great location</p>
-              <p class="text-sm text-gray-500">100% of recent guests gave the location a 5-star rating.</p>
+              <p class="font-semibold text-lg">Free cancellation</p>
+              <p class="text-gray-500 font-light">Cancel up to 48 hours before your check-in.</p>
             </div>
           </div>
         </div>
 
-        <div class="py-10">
-          <p class="text-gray-800 leading-relaxed text-lg font-light whitespace-pre-line">
+        <div class="py-10 border-b border-gray-200">
+          <h3 class="text-xl font-semibold mb-6">About this place</h3>
+          <p class="text-[#222] leading-relaxed text-[17px] font-light whitespace-pre-line">
             <%= home.description %>
           </p>
         </div>
 
-        <div class="py-10 border-t border-gray-100">
-          <h3 class="text-xl font-bold mb-8 text-gray-900 tracking-tight">What this place offers</h3>
+        <div class="py-10">
+          <h3 class="text-xl font-semibold mb-8 tracking-tight">What this place offers</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6">
-            <div class="flex items-center gap-4 <%= home.wifi === 'yes' ? '' : 'opacity-40 grayscale' %>">
-              <span class="text-2xl">📶</span>
-              <span class="text-lg <%= home.wifi === 'yes' ? 'font-medium' : 'line-through' %>">High-speed Wifi</span>
+            <div class="flex items-center gap-4 <%= home.wifi === 'yes' ? '' : 'opacity-30 line-through' %>">
+              <span class="text-2xl">📶</span> <span class="text-[17px] font-light tracking-wide text-gray-700">High-speed Wifi</span>
             </div>
-            <div class="flex items-center gap-4 <%= home.parking === 'yes' ? '' : 'opacity-40 grayscale' %>">
-              <span class="text-2xl">🚗</span>
-              <span class="text-lg <%= home.parking === 'yes' ? 'font-medium' : 'line-through' %>">Free parking on premises</span>
+            <div class="flex items-center gap-4 <%= home.parking === 'yes' ? '' : 'opacity-30 line-through' %>">
+              <span class="text-2xl">🚗</span> <span class="text-[17px] font-light tracking-wide text-gray-700">Free parking on site</span>
             </div>
-            <div class="flex items-center gap-4 <%= home.ac === 'yes' ? '' : 'opacity-40 grayscale' %>">
-              <span class="text-2xl">❄️</span>
-              <span class="text-lg <%= home.ac === 'yes' ? 'font-medium' : 'line-through' %>">Air conditioning</span>
+            <div class="flex items-center gap-4 <%= home.ac === 'yes' ? '' : 'opacity-30 line-through' %>">
+              <span class="text-2xl">❄️</span> <span class="text-[17px] font-light tracking-wide text-gray-700">Central Air Conditioning</span>
             </div>
             <div class="flex items-center gap-4">
-              <span class="text-2xl">🛏️</span>
-              <span class="text-lg font-medium tracking-tight"><%= home.bedroom %> Bedrooms</span>
+              <span class="text-2xl">🛌</span> <span class="text-[17px] font-light tracking-wide text-gray-700"><%= home.bedroom %> Bedrooms</span>
             </div>
           </div>
         </div>
 
-        <div class="py-10 border-t border-gray-100">
-          <h3 class="text-xl font-bold mb-6">Where you'll be</h3>
-          <div id="map" class="h-[400px] w-full rounded-3xl bg-gray-50 border border-gray-100 overflow-hidden shadow-inner"></div>
+        <div class="py-10 border-t border-gray-200">
+          <h3 class="text-xl font-semibold mb-6">Where you’ll be</h3>
+          <div id="map" class="h-[480px] w-full rounded-2xl bg-gray-100 border border-gray-200 shadow-inner"></div>
+          <p class="mt-4 font-semibold"><%= home.location %></p>
         </div>
       </div>
 
       <div class="lg:col-span-5">
-        <div class="sticky top-28 bg-white border border-gray-100 rounded-[2rem] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-8">
-          
-          <div class="flex justify-between items-baseline mb-8">
+        <div class="sticky top-28 booking-sidebar bg-white rounded-2xl p-6">
+          <div class="flex justify-between items-baseline mb-6">
             <div>
-              <span class="text-2xl font-black text-black">₹<%= home.price.toLocaleString('en-IN') %></span>
-              <span class="text-gray-500 font-light ml-1">night</span>
+              <span class="text-2xl font-bold">₹<%= home.price.toLocaleString('en-IN') %></span>
+              <span class="text-gray-500 font-light"> night</span>
             </div>
+            <div class="text-sm font-semibold underline decoration-gray-400">15 reviews</div>
           </div>
 
-          <div class="border border-gray-200 rounded-2xl mb-6 overflow-hidden focus-within:ring-2 focus-within:ring-black">
-            <div class="grid grid-cols-2 border-b border-gray-200">
-              <div class="p-4 border-r border-gray-200 hover:bg-gray-50 cursor-pointer">
-                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500">Check-in</label>
-                <div class="text-sm font-medium">Add date</div>
+          <div class="border border-gray-400 rounded-xl overflow-hidden mb-4">
+            <div class="grid grid-cols-2 border-b border-gray-400">
+              <div class="p-3 border-r border-gray-400 hover:bg-gray-50 cursor-pointer">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-600">Check-in</label>
+                <div class="text-sm font-light">Add date</div>
               </div>
-              <div class="p-4 hover:bg-gray-50 cursor-pointer">
-                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500">Checkout</label>
-                <div class="text-sm font-medium">Add date</div>
+              <div class="p-3 hover:bg-gray-50 cursor-pointer">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-600">Checkout</label>
+                <div class="text-sm font-light">Add date</div>
               </div>
             </div>
-            <div class="p-4 hover:bg-gray-50 cursor-pointer">
-              <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500">Guests</label>
-              <div class="text-sm font-medium">1 guest</div>
+            <div class="p-3 hover:bg-gray-50 cursor-pointer">
+              <label class="block text-[10px] font-black uppercase tracking-widest text-gray-600">Guests</label>
+              <div class="text-sm font-light">1 guest</div>
             </div>
           </div>
 
           <% if (bookingStatus !== 'CONFIRMED') { %>
-            <a href="/bookMyStay/<%= home.id %>" class="block w-full bg-gradient-to-br from-[#FF385C] to-[#BD1E59] text-white py-4 rounded-2xl text-lg font-bold text-center hover:opacity-90 shadow-lg shadow-pink-200 transition active:scale-[0.98]">
+            <a href="/bookMyStay/<%= home.id %>" class="block w-full bg-gradient-to-r from-[#E31C5F] via-[#D70466] to-[#BD1E59] text-white text-center py-3.5 rounded-xl font-bold text-lg hover:shadow-lg transition-all active:scale-[0.98]">
               Reserve
             </a>
           <% } else { %>
-            <button disabled class="block w-full bg-gray-900 text-gray-400 py-4 rounded-2xl text-lg font-bold cursor-not-allowed">
+            <button disabled class="block w-full bg-gray-400 text-white py-3.5 rounded-xl font-bold text-lg cursor-not-allowed">
               Booked
             </button>
           <% } %>
 
-          <p class="text-center text-gray-400 text-xs mt-4">You won't be charged yet</p>
+          <p class="text-center text-gray-400 text-xs mt-4">You won’t be charged yet</p>
 
-          <div class="mt-8 space-y-4">
+          <div class="mt-6 space-y-4">
             <div class="flex justify-between text-gray-600 font-light">
               <span class="underline">₹<%= home.price.toLocaleString('en-IN') %> x 5 nights</span>
               <span>₹<%= (home.price * 5).toLocaleString('en-IN') %></span>
             </div>
-            <div class="flex justify-between text-gray-600 font-light">
-              <span class="underline">Cleaning fee</span>
+            <div class="flex justify-between text-gray-600 font-light underline">
+              <span>Cleaning fee</span>
               <span>₹450</span>
             </div>
-            <div class="border-t border-gray-100 pt-5 flex justify-between font-black text-xl text-gray-900">
-              <span>Total</span>
+            <div class="border-t border-gray-200 pt-5 flex justify-between font-bold text-[18px]">
+              <span>Total after taxes</span>
               <span>₹<%= (home.price * 5 + 450).toLocaleString('en-IN') %></span>
             </div>
           </div>
@@ -187,21 +185,29 @@
     </div>
   </main>
 
+  <div id="galleryModal" class="fixed inset-0 bg-white hidden z-[100] overflow-y-auto">
+    <div class="max-w-[800px] mx-auto py-20 px-6">
+      <button onclick="closeGallery()" class="fixed top-8 left-8 p-3 hover:bg-gray-100 rounded-full transition">✕ Close</button>
+      <div class="flex flex-col gap-8 mt-12">
+        <% images.forEach(img => { %>
+          <img src="<%= img %>" class="w-full rounded-lg shadow-sm" />
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
   <%- include('partials/footer') %>
 
   <script>
+    function openGallery() { document.getElementById('galleryModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+    function closeGallery() { document.getElementById('galleryModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+
     function initMap() {
-      new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 28.6139, lng: 77.2090 },
-        zoom: 10
-      });
+      const loc = { lat: 28.6139, lng: 77.2090 }; // Use your specific lat/lng here
+      const map = new google.maps.Map(document.getElementById("map"), { center: loc, zoom: 14, disableDefaultUI: true });
+      new google.maps.Marker({ position: loc, map: map });
     }
-    </script>
-    
- <script async
- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhfuplrS4B66Q0Jg-GQdnzjlnRsg-p8wg&callback=initMap">
-</script>
-
-
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhfuplrS4B66Q0Jg-GQdnzjlnRsg-p8wg&callback=initMap"></script>
 </body>
 </html>
