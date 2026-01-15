@@ -20,6 +20,15 @@
 
 <body class="bg-white text-[#222222] antialiased">
   <%- include('partials/navbar') %>
+  <%
+  let coverImage = "/images/placeholder.jpg";
+  try {
+    if (home.image_url) {
+      const parsed = typeof home.image_url === "string" ? JSON.parse(home.image_url) : home.image_url;
+      coverImage = Array.isArray(parsed) ? parsed[0] : home.image_url;
+    }
+  } catch (err) { coverImage = home.image_url; }
+%>
 
   <main class="max-w-[1120px] mx-auto px-6 md:px-10 lg:px-12 pt-12 pb-24">
     <div class="flex items-center gap-6 mb-10">
@@ -120,7 +129,7 @@
       <aside>
         <div class="sticky top-28 bg-white border border-gray-200 rounded-3xl p-8 card-shadow space-y-6">
           <div class="flex gap-5">
-            <img src="<%= home.image_url %>" class="w-28 h-20 object-cover rounded-xl shadow-sm">
+            <img src="<%= coverImage %>" class="w-28 h-20 object-cover rounded-xl shadow-sm">
             <div class="flex flex-col justify-center">
               <p class="text-xs font-bold text-gray-500 uppercase tracking-tighter"><%= home.location %></p>
               <p class="text-sm font-semibold leading-tight mt-1"><%= home.title %></p>
