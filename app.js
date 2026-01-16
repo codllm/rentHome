@@ -1,4 +1,5 @@
-require("dotenv").config();
+require('dotenv').config({ path: './.env' });
+
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
@@ -8,6 +9,8 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+console.log(process.env.OPENAI_API_KEY);
+
 
 
 app.use(express.urlencoded({ extended: true }));

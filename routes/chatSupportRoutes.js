@@ -5,7 +5,7 @@ const chatSupportRoutes = express.Router();
 
 // Chat support page
 chatSupportRoutes.get("/help/stayNest/chat-support", (req, res) => {
-  console.log("API KEY:", process.env.OPENAI_API_KEY); // should NOT be undefined
+  console.log("API KEY:", process.env.OPENAI_API_KEY); 
   res.render("chatSupport");
 });
 
