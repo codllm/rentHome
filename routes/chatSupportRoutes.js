@@ -1,21 +1,30 @@
 const express = require("express");
-const chatSupportRoutes = express.Router();
 const OpenAI = require("openai");
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const chatSupportRoutes = express.Router();
+
+// Chat support page
+chatSupportRoutes.get("/help/stayNest/chat-support", (req, res) => {
+  console.log("API KEY:", process.env.OPENAI_API_KEY); // should NOT be undefined
+  res.render("chatSupport");
 });
 
-chatSupportRoutes.get("/help/stayNest/chat-support",(req,res)=>{
-  res.render("chatSupport")
-  console.log("API KEY:", process.env.OPENAI_API_KEY);
-
-})
+// Chat API
 chatSupportRoutes.post("/api/chat-support", async (req, res) => {
   try {
     const { message } = req.body;
     console.log("Incoming message:", message);
 
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({
+        reply: "OPENAI_API_KEY not configured on server",
+      });
+    }
+
+    // ✅ Create OpenAI client ONLY when needed
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
     const openaiReply = await client.chat.completions.create({
       model: "gpt-4o-mini",
@@ -36,13 +45,11 @@ chatSupportRoutes.post("/api/chat-support", async (req, res) => {
       reply: openaiReply.choices[0].message.content,
     });
   } catch (error) {
-    console.error("AI Error:", error);
+    console.error("AI Error:", error.message);
     res.status(500).json({
       reply: "Sorry, AI support is temporarily unavailable.",
     });
   }
 });
-
-
 
 module.exports = chatSupportRoutes;
