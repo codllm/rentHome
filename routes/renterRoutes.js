@@ -14,7 +14,11 @@ rentedRoutes.get('/homes', isAuth, async (req, res) => {
     res.render('rentedHomes', { bookings: homes });
 
   }catch(err){
-    res.status(500).json({error: err.message});
+    res.status(500).render('error',{
+      status: 500,
+      message: "Try again.",
+      error: err
+    })
   }
 })
 

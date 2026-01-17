@@ -19,7 +19,7 @@ addHomeLogic.post(
         return res.status(400).send("No images uploaded");
       }
 
-      // 🔥 upload all images
+  
       const image_Url_cloudinary = [];
 
       for (let file of req.files) {

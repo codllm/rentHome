@@ -100,7 +100,7 @@
 <script>
   function searchAnywhere(){
     const searchInput = document.getElementById('searchInput').value.trim();
-    //kuch bhi locaytion serach nhi hua toh return krdo
+    //kuch bhi location serach nhi hua toh return krdo
     if(searchInput === "") return;
     // agar value search hua hai backend ko bhej do search anywhere
     window.location.href = `/search?location=${encodeURIComponent(searchInput)}`;

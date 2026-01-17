@@ -39,7 +39,11 @@ signAuthLogic.post('/newregister', async (req, res) => {
 
   } catch (err) {
     console.log('Signup failed ❌', err);
-    res.status(500).send('Something went wrong');
+    res.status(500).render('error',{
+      status: 500,
+      message: "Sign up failed. Please try again.",
+      error: err
+    })
   }
 });
 

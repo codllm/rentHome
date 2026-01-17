@@ -11,12 +11,12 @@ bookingRoutes.get('/bookMyStay/:homeId',isAuth, async (req, res) => {
     const home = await getHousebyID(homeId);
 
     if (!home) {
-      return res.status(404).send('Home not found');
+      return res.status(404).send('error',{message:'Home not found'});
     }
 
     res.render('booking', { home });
   } catch (err) {
-    res.status(500).send('Server error');
+    res.status(500).send('error',{message:err});
   }
 });
 bookingRoutes.get("/bookings/success", (req, res) => {

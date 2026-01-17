@@ -13,8 +13,8 @@ loginAuthLogic.post("/login-airbnb", async (req, res) => {
 
   try {
     const [[user]] = await db.execute(
-      "SELECT * FROM users WHERE email = ?  AND role = ?",
-      [email, role]
+      "SELECT * FROM users WHERE email = ? ",
+      [email]
     );
     // authentication password haisng
     const hashPassword = user.password;
@@ -54,7 +54,11 @@ loginAuthLogic.post("/login-airbnb", async (req, res) => {
 
   } catch (err) {
     console.log("Login failed ❌", err);
-    res.status(500).send("Something went wrong");
+    res.status(500).render('error',{
+      status: 500,
+      message: "Login failed. Please try again.",
+      error: err
+    });
   }
 });
 

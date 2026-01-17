@@ -12,7 +12,11 @@ hostRoutes.get('/dashboard', isHost, async (req, res) => {
     const homes = await getHostHomes(userId);
     res.render('hostDashboard', { homes });
   } catch (err) {
-    res.status(500).send('Something went wrong');
+    res.status(500).render('error',{
+      status: 500,
+      message: "Something went wrong.",
+      error: err
+    });
   }
 });
 

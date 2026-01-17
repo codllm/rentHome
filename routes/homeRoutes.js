@@ -32,8 +32,13 @@ homeRoutes.get("/homes/:id", async (req, res) => {
   ]);
 
   const bookingStatus = await roomAvailability(req.params.id);
+  
 
-  if (!home) return res.status(404).send("Home not found");
+  if (!home) return res.status(500).render('error',{
+    status: 500,
+    message: "Home not found.",
+    error: err
+  })
   res.render("homeDetails", { home,bookingStatus});
 });
 

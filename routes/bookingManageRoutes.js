@@ -14,7 +14,7 @@ bookingManageRoutes.get(
       const receiptData = await bookingReceipt(homeId, bookingId);
 
       if (!receiptData) {
-        return res.status(404).send('Receipt not found');
+        return res.status(404).send('error',{message:'Receipt not found'});
       }
 
       // ✅ Render EJS
@@ -22,7 +22,7 @@ bookingManageRoutes.get(
 
     } catch (err) {
       console.error("Error in booking management route:", err);
-      res.status(500).send('Internal Server Error');
+        res.status(500).send('error',{message:'Internal Server Error'});
     }
   }
 );
