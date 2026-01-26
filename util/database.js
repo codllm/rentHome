@@ -13,5 +13,6 @@ const pool = mysql.createPool({
     rejectUnauthorized: false
   }
 });
+console.log("Connecting to:", process.env.DB_HOST);
 
 module.exports = pool.promise();

@@ -10,10 +10,16 @@ const conditions = states
 
 const values = states.map(state => `%${state.toLowerCase()}%`);
 
-const [rows] =  await db.execute(
-  `SELECT h.* ,  COALESCE(b.status,"AVAILABLE") AS booking_status ,b.checkout AS checkout FROM homes h LEFT JOIN booking b on h.id = b.home_id WHERE ${conditions} ORDER BY h.created_at DESC`,values)
-
-
+const [rows] = await db.execute(
+  `SELECT h.*, 
+          COALESCE(b.status, 'AVAILABLE') AS booking_status, 
+          b.checkout AS checkout 
+   FROM homes h 
+   LEFT JOIN booking b ON h.id = b.home_id 
+   WHERE ${conditions} 
+   ORDER BY h.created_at DESC`, 
+  values
+);
     
   const groupedHomes = {};
 
